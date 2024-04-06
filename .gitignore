@@ -1,0 +1,15 @@
+node_modules
+__pycache__
+.idea/
+*~
+.cache
+.coverage
+coverage.xml
+celerybeat-schedule
+/.pytest_cache
+.~*
+media/*
+/.env
+error.log
+.DS_Store
+.vscode/
