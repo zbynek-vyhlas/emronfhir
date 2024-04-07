@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h1>Data page</h1>
+    <h1>Medications</h1>
   </div>
 
   <v-row justify="center">
     <v-col cols="8"
       ><v-card
-        ><v-card-title> Customers </v-card-title>
+        ><v-card-title>Medications</v-card-title>
         <v-card-text>
           <v-table fixed-header height="300px">
             <thead>

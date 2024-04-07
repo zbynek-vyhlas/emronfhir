@@ -20,14 +20,19 @@ export default new createRouter({
       component: () => import("@/pages/DashboardPage.vue"),
     },
     {
-      path: "/data/",
-      name: "data-page",
-      component: () => import("@/pages/DataPage.vue"),
+      path: "/medications/",
+      name: "medications-page",
+      component: () => import("@/pages/MedicationsPage.vue"),
     },
     {
-      path: "/actions/",
-      name: "actions-page",
-      component: () => import("@/pages/ActionsPage.vue"),
+      path: "/labs/",
+      name: "labs-page",
+      component: () => import("@/pages/LabsPage.vue"),
+    },
+    {
+      path: "/vitals/",
+      name: "vitals-page",
+      component: () => import("@/pages/VitalsPage.vue"),
     },
     {
       path: "/user/",
