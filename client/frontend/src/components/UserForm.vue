@@ -40,10 +40,10 @@
 </template>
 
 <script setup>
-import { useMainStore } from "@/stores/main";
-import { computed, ref } from "vue";
-import axios from "axios";
-import { getInitials, getUserType } from "@/libs/utils";
+import { useMainStore } from '@/stores/main';
+import { computed, ref } from 'vue';
+import axios from 'axios';
+import { getInitials, getUserType } from '@/libs/utils';
 
 const props = defineProps({
   user: Object,
@@ -60,13 +60,13 @@ const initials = computed(() => {
   return getInitials(data.value.first_name, data.value.last_name);
 });
 const mainStore = useMainStore();
-const emit = defineEmits(["submit", "cancel"]);
+const emit = defineEmits(['submit', 'cancel']);
 async function submitForm() {
-  const res = await axios.patch("/api/v1/user/", data.value);
+  const res = await axios.patch('/api/v1/user/', data.value);
   if (res.status === 200) {
     mainStore.user.firstName = res.data.first_name;
     mainStore.user.lastName = res.data.last_name;
-    emit("submit");
+    emit('submit');
   }
 }
 </script>

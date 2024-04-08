@@ -23,9 +23,9 @@
   </v-row>
 </template>
 <script>
-import PieChart1 from "../components/charts/PieChart1.vue";
-import PieChart2 from "../components/charts/PieChart2.vue";
-import StackedAreaChart from "../components/charts/StackedAreaChart.vue";
+import PieChart1 from '../components/charts/PieChart1.vue';
+import PieChart2 from '../components/charts/PieChart2.vue';
+import StackedAreaChart from '../components/charts/StackedAreaChart.vue';
 
 export default {
   components: {

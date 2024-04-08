@@ -57,9 +57,9 @@
   </v-form>
 </template>
 <script>
-import axios from "@/libs/axios";
-import { useMainStore } from "@/stores/main";
-import { basicRule, emailRules } from "@/libs/form-rules";
+import axios from '@/libs/axios';
+import { useMainStore } from '@/stores/main';
+import { basicRule, emailRules } from '@/libs/form-rules';
 
 export default {
   data: function () {
@@ -67,8 +67,8 @@ export default {
       visible: false,
       valid: false,
       user: {
-        email: "",
-        password: "",
+        email: '',
+        password: '',
       },
       mainStore: null,
       rules: {
@@ -85,7 +85,7 @@ export default {
     logIn() {
       this.mainStore.closeSnackbar();
       axios
-        .post("/api/v1/auth/login/", {
+        .post('/api/v1/auth/login/', {
           email: this.user.email,
           password: this.user.password,
         })

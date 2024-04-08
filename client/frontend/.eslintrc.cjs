@@ -3,16 +3,16 @@
 
 module.exports = {
   root: true,
-  extends: ["plugin:vue/vue3-essential", "eslint:recommended"],
+  extends: ['plugin:vue/vue3-essential', 'eslint:recommended'],
   parserOptions: {
-    ecmaVersion: "latest",
+    ecmaVersion: 'latest',
     // "sourceType": "module"
   },
   env: {
     browser: true,
     es6: true,
   },
-  plugins: ["vue"],
+  plugins: ['vue'],
   rules: {
     // Your rules here
   },

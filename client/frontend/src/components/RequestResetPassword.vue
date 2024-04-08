@@ -45,9 +45,9 @@
   </v-form>
 </template>
 <script>
-import axios from "@/libs/axios";
-import { emailRules } from "@/libs/form-rules";
-import { useMainStore } from "@/stores/main";
+import axios from '@/libs/axios';
+import { emailRules } from '@/libs/form-rules';
+import { useMainStore } from '@/stores/main';
 
 export default {
   data() {
@@ -57,7 +57,7 @@ export default {
         email: emailRules,
       },
       user: {
-        email: "",
+        email: '',
       },
       mainStore: null,
     };
@@ -68,12 +68,12 @@ export default {
   methods: {
     requestPasswordReset() {
       axios
-        .post("/api/v1/auth/request-password-reset/", {
+        .post('/api/v1/auth/request-password-reset/', {
           email: this.user.email,
         })
         .then(() => {
           this.mainStore.handleSuccess(
-            "Email with the reset link has been sent."
+            'Email with the reset link has been sent.'
           );
         })
         .catch((error) => {

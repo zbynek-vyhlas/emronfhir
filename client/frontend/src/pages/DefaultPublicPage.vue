@@ -27,14 +27,14 @@
 </template>
 
 <script>
-import RegisterUser from "@/components/RegisterUser.vue";
-import LoginUser from "@/components/LoginUser.vue";
-import RequestResetPassword from "@/components/RequestResetPassword.vue";
+import RegisterUser from '@/components/RegisterUser.vue';
+import LoginUser from '@/components/LoginUser.vue';
+import RequestResetPassword from '@/components/RequestResetPassword.vue';
 
 export default {
   components: { LoginUser, RegisterUser, RequestResetPassword },
   data: () => ({
-    tab: "login",
+    tab: 'login',
   }),
   methods: {},
 };

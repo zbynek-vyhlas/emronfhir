@@ -51,11 +51,11 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
-import axios from "axios";
-import { basicRule, passwordRules, password2Rules } from "@/libs/form-rules";
-import { useMainStore } from "@/stores/main";
-import { getInitials } from "@/libs/utils";
+import { computed, ref } from 'vue';
+import axios from 'axios';
+import { basicRule, passwordRules, password2Rules } from '@/libs/form-rules';
+import { useMainStore } from '@/stores/main';
+import { getInitials } from '@/libs/utils';
 
 const passwordVisible = ref(false);
 const rules = computed(() => ({
@@ -71,18 +71,18 @@ const username = ref(props.user.username);
 const initials = getInitials(props.user.firstName, props.user.lastName);
 
 const data = ref({
-  old_password: "",
-  new_password1: "",
-  new_password2: "",
+  old_password: '',
+  new_password1: '',
+  new_password2: '',
 });
 const mainStore = useMainStore();
-const emit = defineEmits(["submit", "cancel"]);
+const emit = defineEmits(['submit', 'cancel']);
 async function submitForm() {
   await axios
-    .post("/api/v1/auth/password/change/", data.value)
+    .post('/api/v1/auth/password/change/', data.value)
     .then(() => {
-      mainStore.handleSuccess("Password has been changed");
-      emit("submit");
+      mainStore.handleSuccess('Password has been changed');
+      emit('submit');
     })
     .catch((error) => {
       mainStore.handleError(error.response.data);

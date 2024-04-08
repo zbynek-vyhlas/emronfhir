@@ -82,9 +82,9 @@
   </v-card>
 </template>
 <script>
-import axios from "@/libs/axios";
-import { passwordRules, password2Rules } from "@/libs/form-rules";
-import { useMainStore } from "@/stores/main";
+import axios from '@/libs/axios';
+import { passwordRules, password2Rules } from '@/libs/form-rules';
+import { useMainStore } from '@/stores/main';
 
 export default {
   data() {
@@ -93,11 +93,11 @@ export default {
       passwordVisible: false,
       mainStore: null,
       user: {
-        username: "",
-        password1: "",
-        password2: "",
-        uid: "",
-        token: "",
+        username: '',
+        password1: '',
+        password2: '',
+        uid: '',
+        token: '',
       },
     };
   },
@@ -128,8 +128,8 @@ export default {
           new_password2: this.user.password2,
         })
         .then(() => {
-          this.mainStore.handleSuccess("Password has been reset.");
-          this.$router.push({ name: "home-page" });
+          this.mainStore.handleSuccess('Password has been reset.');
+          this.$router.push({ name: 'home-page' });
         })
         .catch((error) => {
           this.mainStore.handleError(error.response.data);

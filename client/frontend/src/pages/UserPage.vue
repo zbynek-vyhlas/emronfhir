@@ -27,14 +27,14 @@
   </v-row>
 </template>
 <script setup>
-import { useMainStore } from '@/stores/main'
-import { ref } from 'vue'
-import UserProfile from '@/components/UserProfile.vue'
-import UserForm from '@/components/UserForm.vue'
-import PasswordForm from '@/components/PasswordForm.vue'
+import { useMainStore } from '@/stores/main';
+import { ref } from 'vue';
+import UserProfile from '@/components/UserProfile.vue';
+import UserForm from '@/components/UserForm.vue';
+import PasswordForm from '@/components/PasswordForm.vue';
 
-const editing = ref('')
-const mainStore = useMainStore()
+const editing = ref('');
+const mainStore = useMainStore();
 </script>
 <style>
 .name {

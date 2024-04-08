@@ -26,13 +26,13 @@
   </v-container>
 </template>
 <script setup>
-import { computed } from "vue";
-import { getInitials, getUserType } from "@/libs/utils";
+import { computed } from 'vue';
+import { getInitials, getUserType } from '@/libs/utils';
 
 const props = defineProps({
   user: Object,
 });
-defineEmits(["edit"]);
+defineEmits(['edit']);
 
 const initials = computed(() => {
   return getInitials(props.user.firstName, props.user.lastName);

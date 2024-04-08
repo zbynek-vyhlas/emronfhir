@@ -1,11 +1,11 @@
-import { fileURLToPath, URL } from "node:url";
-import vuetify from "vite-plugin-vuetify";
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import fs from "fs";
-import https from "https";
+import { fileURLToPath, URL } from 'node:url';
+import vuetify from 'vite-plugin-vuetify';
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import fs from 'fs';
+import https from 'https';
 
-const devURLBase = "https://127.0.0.1:8000/";
+const devURLBase = 'https://127.0.0.1:8000/';
 
 /* eslint-disable */
 export default defineConfig(({ command, mode }) => {
@@ -15,21 +15,21 @@ export default defineConfig(({ command, mode }) => {
     plugins: [vue(), vuetify({ autoImport: true })],
     resolve: {
       alias: {
-        "@": fileURLToPath(new URL("./src", import.meta.url)),
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
   };
-  if (command === "serve") {
+  if (command === 'serve') {
     // development configuration: base configuration extended for configuratiion used only in development
     return {
       ...baseConfig,
       server: {
         https: {
-          key: fs.readFileSync("../../key.pem"),
-          cert: fs.readFileSync("../../cert.pem"),
+          key: fs.readFileSync('../../key.pem'),
+          cert: fs.readFileSync('../../cert.pem'),
         },
         proxy: {
-          "/api/": {
+          '/api/': {
             target: devURLBase,
             changeOrigin: true,
             ws: true,
@@ -38,7 +38,7 @@ export default defineConfig(({ command, mode }) => {
             // more info: https://github.com/vitejs/vite/issues/4794
             agent: new https.Agent(),
           },
-          "/static/": {
+          '/static/': {
             target: devURLBase,
             changeOrigin: true,
             ws: true,
@@ -47,7 +47,7 @@ export default defineConfig(({ command, mode }) => {
             // more info: https://github.com/vitejs/vite/issues/4794
             agent: new https.Agent(),
           },
-          "/media/": {
+          '/media/': {
             target: devURLBase,
             changeOrigin: true,
             ws: true,
