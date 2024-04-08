@@ -4,7 +4,13 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn v-if="settings.adminPath" class="mr-1" color="secondary" icon @click="goToDjangoAdmin">
+    <v-btn
+      v-if="settings.adminPath"
+      class="mr-1"
+      color="secondary"
+      icon
+      @click="goToDjangoAdmin"
+    >
       <v-icon size="large">mdi-account-cowboy-hat</v-icon>
       <v-tooltip activator="parent" location="bottom">Django Admin</v-tooltip>
     </v-btn>
@@ -26,13 +32,21 @@
           ></v-switch>
         </v-list-item>
         <v-list-item>
-          <v-btn :to="{ name: 'settings-page' }" variant="text" @click="menuSettings = false">
+          <v-btn
+            :to="{ name: 'settings-page' }"
+            variant="text"
+            @click="menuSettings = false"
+          >
             Advanced Settings
           </v-btn>
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu v-model="menuAccount" min-width="200px" :close-on-content-click="false">
+    <v-menu
+      v-model="menuAccount"
+      min-width="200px"
+      :close-on-content-click="false"
+    >
       <template v-slot:activator="{ props }">
         <v-btn icon v-bind="props" class="mr-5">
           <v-avatar color="tertiary" size="large">
@@ -63,16 +77,28 @@
               Account
             </v-btn>
             <v-divider class="my-3"></v-divider>
-            <v-btn variant="text" color="tertiary" @click="doLogOut"> Log out </v-btn>
+            <v-btn variant="text" color="tertiary" @click="doLogOut">
+              Log out
+            </v-btn>
           </div>
         </v-card-text>
       </v-card>
     </v-menu>
   </v-app-bar>
-  <v-navigation-drawer v-model="drawer" :rail="rail" permanent color="secondary">
+  <v-navigation-drawer
+    v-model="drawer"
+    :rail="rail"
+    permanent
+    color="secondary"
+  >
     <v-list-item nav class="pl-1">
       <template v-slot:append>
-        <v-btn variant="text" icon="mdi-menu" color="primary" @click.stop="rail = !rail"></v-btn>
+        <v-btn
+          variant="text"
+          icon="mdi-menu"
+          color="primary"
+          @click.stop="rail = !rail"
+        ></v-btn>
       </template>
     </v-list-item>
 
@@ -94,6 +120,25 @@
     </v-list>
   </v-navigation-drawer>
   <v-main>
+    <div class="text-center pa-4">
+      <v-dialog v-model="dialog" width="auto">
+        <v-card
+          max-width="400"
+          prepend-icon="mdi-cloud-alert"
+          text="In order to see your data here please give a consent to this application to fetch your data stored in Epic."
+          title="Data not available"
+        >
+          <template v-slot:actions>
+            <v-btn
+              class="ms-auto"
+              color="tertiary"
+              text="Ok"
+              @click="dialog = false"
+            ></v-btn>
+          </template>
+        </v-card>
+      </v-dialog>
+    </div>
     <v-container style="max-width: 1200px">
       <router-view :key="$route.fullPath" />
     </v-container>
@@ -101,15 +146,16 @@
 </template>
 
 <script>
-import { useTheme } from 'vuetify'
-import { useMainStore } from '@/stores/main'
-import { mapActions, mapState } from 'pinia'
-import { getInitials } from '@/libs/utils'
+import { useTheme } from 'vuetify';
+import { useMainStore } from '@/stores/main';
+import { mapActions, mapState } from 'pinia';
+import { getInitials } from '@/libs/utils';
 
 export default {
   data() {
     return {
       drawer: true,
+      dialog: true,
       rail: false,
       fav: true,
       menuSettings: false,
@@ -121,65 +167,72 @@ export default {
           title: 'Dashboard',
           icon: 'mdi-view-dashboard',
           value: 'dashboard',
-          routerLink: 'dashboard-page'
+          routerLink: 'dashboard-page',
         },
         {
-          title: 'Data',
+          title: 'Medications',
           icon: 'mdi-database',
-          value: 'data',
-          routerLink: 'data-page'
+          value: 'medications',
+          routerLink: 'medications-page',
         },
         {
-          title: 'Actions',
-          icon: 'mdi-file-document-edit',
-          value: 'actions',
-          routerLink: 'actions-page'
+          title: 'Lab Reports',
+          icon: 'mdi-database',
+          value: 'labs',
+          routerLink: 'labs-page',
+        },
+        {
+          title: 'Vital Signs',
+          icon: 'mdi-database',
+          value: 'vitals',
+          routerLink: 'vitals-page',
         },
         {
           title: 'User',
           icon: 'mdi-account',
           value: 'user',
-          routerLink: 'user-page'
+          routerLink: 'user-page',
         },
         {
           title: 'Settings',
           icon: 'mdi-cog',
           value: 'settings',
-          routerLink: 'settings-page'
-        }
-      ]
-    }
+          routerLink: 'settings-page',
+        },
+      ],
+    };
   },
   created() {
-    this.theme = useTheme()
+    this.theme = useTheme();
   },
   methods: {
     ...mapActions(useMainStore, ['logOut']),
     toggleTheme() {
       this.theme.global.name.value = this.theme.global.current.value.dark
         ? 'lightTheme'
-        : 'darkTheme'
+        : 'darkTheme';
     },
     doLogOut() {
-      this.logOut()
-      this.menuAccount = false
+      this.logOut();
+      this.menuAccount = false;
     },
     goToDjangoAdmin() {
-      const backendOrigin = import.meta.env.VITE_BACKEND_ORIGIN || window.location.origin
-      const url = `${backendOrigin}/${this.settings.adminPath}`
-      window.open(url, '_blank')
-    }
+      const backendOrigin =
+        import.meta.env.VITE_BACKEND_ORIGIN || window.location.origin;
+      const url = `${backendOrigin}/${this.settings.adminPath}`;
+      window.open(url, '_blank');
+    },
   },
   computed: {
     ...mapState(useMainStore, ['user', 'settings']),
     initials() {
-      return getInitials(this.user.firstName, this.user.lastName)
+      return getInitials(this.user.firstName, this.user.lastName);
     },
     email() {
-      return this.user.email || ''
-    }
-  }
-}
+      return this.user.email || '';
+    },
+  },
+};
 </script>
 
 <style>
