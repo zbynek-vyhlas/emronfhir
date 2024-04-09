@@ -4,26 +4,31 @@
   </div>
 
   <v-row justify="center">
-    <v-col cols="8"
-      ><v-card
+    <v-col cols="8">
+      <v-skeleton-loader
+        class="mx-auto border"
+        max-width="600"
+        type="table"
+      ></v-skeleton-loader>
+      <!-- <v-card
         ><v-card-title>Vital Signs</v-card-title>
         <v-card-text>
           <v-table fixed-header height="300px">
             <thead>
               <tr>
                 <th class="text-left">Name</th>
-                <th class="text-left">Products</th>
+                <th class="text-left">value</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="item in companies" :key="item.name">
                 <td>{{ item.name }}</td>
-                <td>{{ item.products }}</td>
+                <td>{{ item.value }}</td>
               </tr>
             </tbody>
           </v-table>
         </v-card-text>
-      </v-card>
+      </v-card> -->
     </v-col>
   </v-row>
 </template>
@@ -33,36 +38,36 @@ export default {
     return {
       companies: [
         {
-          name: 'Compandy 1',
-          products: 262,
+          name: 'datapoint 1',
+          value: 262,
         },
         {
-          name: 'Compandy 2',
-          products: 305,
+          name: 'datapoint 2',
+          value: 305,
         },
         {
-          name: 'Compandy 3',
-          products: 356,
+          name: 'datapoint 3',
+          value: 356,
         },
         {
-          name: 'Compandy 4',
-          products: 375,
+          name: 'datapoint 4',
+          value: 375,
         },
         {
-          name: 'Compandy 5',
-          products: 392,
+          name: 'datapoint 5',
+          value: 392,
         },
         {
-          name: 'Compandy 6',
-          products: 408,
+          name: 'datapoint 6',
+          value: 408,
         },
         {
-          name: 'Compandy 7',
-          products: 452,
+          name: 'datapoint 7',
+          value: 452,
         },
         {
-          name: 'Compandy 8',
-          products: 518,
+          name: 'datapoint 8',
+          value: 518,
         },
       ],
     };
