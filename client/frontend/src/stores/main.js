@@ -1,10 +1,10 @@
-import axios from "@/libs/axios";
-import { defineStore } from "pinia";
+import axios from '@/libs/axios';
+import { defineStore } from 'pinia';
 
-import errorMessageParser from "@/libs/error-message-parser";
+import errorMessageParser from '@/libs/error-message-parser';
 
 export const useMainStore = defineStore({
-  id: "auth",
+  id: 'auth',
   state: () => ({
     isAuthenticated: false,
     appInitialized: false,
@@ -23,9 +23,9 @@ export const useMainStore = defineStore({
     },
     snackbar: {
       show: false,
-      color: "",
-      message: "",
-      icon: "",
+      color: '',
+      message: '',
+      icon: '',
       timeout: 4000,
     },
   }),
@@ -44,7 +44,7 @@ export const useMainStore = defineStore({
     },
     async refreshAccessToken() {
       try {
-        await axios.post("/api/v1/auth/token/refresh/");
+        await axios.post('/api/v1/auth/token/refresh/');
         this.isAuthenticated = true;
       } catch (error) {
         this.isAuthenticated = false;
@@ -55,13 +55,13 @@ export const useMainStore = defineStore({
       this.fetchUser();
     },
     async fetchSettings() {
-      axios.get("/api/v1/settings/").then((response) => {
+      axios.get('/api/v1/settings/').then((response) => {
         this.settings.adminPath = response.data.django_admin_path || null;
       });
     },
     async fetchUser() {
       axios
-        .get("/api/v1/user/")
+        .get('/api/v1/user/')
         .then((response) => {
           this.user.pk = response.data.pk;
           this.user.username = response.data.username;
@@ -79,7 +79,7 @@ export const useMainStore = defineStore({
         });
     },
     setCsrfToken() {
-      axios.get("/api/v1/csrf/");
+      axios.get('/api/v1/csrf/');
     },
     authenticate() {
       this.isAuthenticated = true;
@@ -89,10 +89,10 @@ export const useMainStore = defineStore({
     },
     async logOut() {
       axios
-        .post("/api/v1/auth/logout/")
+        .post('/api/v1/auth/logout/')
         .then(() => {
           this.isAuthenticated = false;
-          this.handleSuccess("You have been successfully logged out.");
+          this.handleSuccess('You have been successfully logged out.');
         })
         .catch((error) => {
           this.handleError(error.response.data);
@@ -101,8 +101,8 @@ export const useMainStore = defineStore({
     handleSuccess(successMessage) {
       Object.assign(this.snackbar, {
         message: successMessage,
-        color: "primary",
-        icon: "mdi-check",
+        color: 'primary',
+        icon: 'mdi-check',
         show: true,
         timeout: 5000,
       });
@@ -110,8 +110,8 @@ export const useMainStore = defineStore({
     handleError(errorMessage) {
       Object.assign(this.snackbar, {
         message: errorMessageParser(errorMessage),
-        color: "tertiary",
-        icon: "mdi-exclamation",
+        color: 'tertiary',
+        icon: 'mdi-exclamation',
         timeout: 12000,
         show: true,
       });
