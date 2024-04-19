@@ -6,21 +6,23 @@
     <v-col col="6">
       <v-card class="pa-5" title="Vital Signs">
         <v-skeleton-loader
+          v-if="!epicData.length"
           class="mx-auto border"
           max-width="300"
           type="image, article"
         ></v-skeleton-loader>
-        <!-- <PieChart1></PieChart1> -->
+        <PieChart1 v-else></PieChart1>
       </v-card>
     </v-col>
     <v-col col="6">
       <v-card class="pa-5" title="Labs">
         <v-skeleton-loader
+          v-if="!epicData.length"
           class="mx-auto border"
           max-width="300"
           type="image, article"
         ></v-skeleton-loader>
-        <!-- <PieChart2></PieChart2> -->
+        <PieChart2 v-else></PieChart2>
       </v-card>
     </v-col>
   </v-row>
@@ -28,16 +30,18 @@
     <v-col cols="12">
       <v-card class="pa-5" title="Medications">
         <v-skeleton-loader
+          v-if="!epicData.length"
           class="mx-auto border"
           max-width="300"
           type="image, article"
         ></v-skeleton-loader>
-        <!-- <StackedAreaChart></StackedAreaChart> -->
+        <StackedAreaChart v-else></StackedAreaChart>
       </v-card>
     </v-col>
   </v-row>
 </template>
 <script>
+import Cookies from 'js-cookie';
 import PieChart1 from '../components/charts/PieChart1.vue';
 import PieChart2 from '../components/charts/PieChart2.vue';
 import StackedAreaChart from '../components/charts/StackedAreaChart.vue';
@@ -47,6 +51,25 @@ export default {
     PieChart1,
     PieChart2,
     StackedAreaChart,
+  },
+  data() {
+    return {
+      epicData: [],
+    };
+  },
+  methods: {
+    async fetchEpicData() {
+      console.log('fetchEpicData called');
+      if (Cookies.get('epic_access_token')) {
+        console.log('epic_access_token is set');
+        this.epicData = ['data1', 'data2', 'data3'];
+        // fetch data from server
+      }
+    },
+  },
+  mounted() {
+    console.log('onMounted called');
+    this.fetchEpicData();
   },
 };
 </script>

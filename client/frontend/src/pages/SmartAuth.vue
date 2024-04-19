@@ -56,9 +56,9 @@ export default {
   },
   methods: {
     decideWhatToDo() {
-      let access_token = Cookies.get('access_token');
+      let access_token = Cookies.get('epic_access_token');
       if (access_token) {
-        this.$router.push({ name: 'Dashboard' });
+        this.$router.push({ name: 'home-page' });
       } else {
         if (this.$route.query.code) {
           console.log('code in SmartAuth.vue: ', this.$route.query.code);
@@ -96,6 +96,10 @@ export default {
 
         if (resp.status === 200) {
           console.log('resp.data', resp.data);
+          Cookies.set('epic_access_token', resp.data.access_token, {
+            expires: 1 / 24 / 0.75, // expires in 45 minutes
+            path: '',
+          });
           this.waitDialog = false;
           this.$router.push({ name: 'home-page' });
         } else {
