@@ -44,5 +44,10 @@ export default new createRouter({
       name: 'settings-page',
       component: () => import('@/pages/SettingsPage.vue'),
     },
+    {
+      path: '/smart-auth',
+      name: 'smart-auth',
+      component: () => import('@/pages/SmartAuth.vue'),
+    },
   ],
 });

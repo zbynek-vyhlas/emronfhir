@@ -4,6 +4,12 @@
 
     <v-spacer></v-spacer>
 
+    <v-btn v-if="true" class="mr-1" color="tertiary" icon @click="goToEpicSync">
+      <v-icon size="large">mdi-database-sync</v-icon>
+      <v-tooltip activator="parent" location="bottom"
+        >link with Epic data</v-tooltip
+      >
+    </v-btn>
     <v-btn
       v-if="settings.adminPath"
       class="mr-1"
@@ -120,25 +126,6 @@
     </v-list>
   </v-navigation-drawer>
   <v-main>
-    <div class="text-center pa-4">
-      <v-dialog v-model="dialog" width="auto">
-        <v-card
-          max-width="400"
-          prepend-icon="mdi-cloud-alert"
-          text="In order to see your data here please give a consent to this application to fetch your data stored in Epic."
-          title="Data not available"
-        >
-          <template v-slot:actions>
-            <v-btn
-              class="ms-auto"
-              color="tertiary"
-              text="Ok"
-              @click="dialog = false"
-            ></v-btn>
-          </template>
-        </v-card>
-      </v-dialog>
-    </div>
     <v-container style="max-width: 1200px">
       <router-view :key="$route.fullPath" />
     </v-container>
@@ -155,7 +142,6 @@ export default {
   data() {
     return {
       drawer: true,
-      dialog: true,
       rail: false,
       fav: true,
       menuSettings: false,
@@ -221,6 +207,9 @@ export default {
         import.meta.env.VITE_BACKEND_ORIGIN || window.location.origin;
       const url = `${backendOrigin}/${this.settings.adminPath}`;
       window.open(url, '_blank');
+    },
+    goToEpicSync() {
+      this.$router.push('/smart-auth');
     },
   },
   computed: {
