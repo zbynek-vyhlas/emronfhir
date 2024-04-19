@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue';
 import fs from 'fs';
 import https from 'https';
 
-const devURLBase = 'https://127.0.0.1:8000/';
+const proxyURL = 'https://127.0.0.1:8000/';
 
 /* eslint-disable */
 export default defineConfig(({ command, mode }) => {
@@ -30,7 +30,7 @@ export default defineConfig(({ command, mode }) => {
         },
         proxy: {
           '/api/': {
-            target: devURLBase,
+            target: proxyURL,
             changeOrigin: true,
             ws: true,
             // to avoid error: read ECONNRESET
@@ -39,7 +39,7 @@ export default defineConfig(({ command, mode }) => {
             agent: new https.Agent(),
           },
           '/static/': {
-            target: devURLBase,
+            target: proxyURL,
             changeOrigin: true,
             ws: true,
             // to avoid error: read ECONNRESET
@@ -48,7 +48,7 @@ export default defineConfig(({ command, mode }) => {
             agent: new https.Agent(),
           },
           '/media/': {
-            target: devURLBase,
+            target: proxyURL,
             changeOrigin: true,
             ws: true,
             // to avoid error: read ECONNRESET
