@@ -45,6 +45,7 @@ import Cookies from 'js-cookie';
 import PieChart1 from '../components/charts/PieChart1.vue';
 import PieChart2 from '../components/charts/PieChart2.vue';
 import StackedAreaChart from '../components/charts/StackedAreaChart.vue';
+import axios from '@/libs/axios';
 
 export default {
   components: {
@@ -59,11 +60,23 @@ export default {
   },
   methods: {
     async fetchEpicData() {
+      const epicAccessToken = Cookies.get('epic_access_token');
       console.log('fetchEpicData called');
-      if (Cookies.get('epic_access_token')) {
-        console.log('epic_access_token is set');
-        this.epicData = ['data1', 'data2', 'data3'];
-        // fetch data from server
+      if (epicAccessToken) {
+        axios
+          .get(import.meta.env.VITE_FHIR_BASE_URL + '/Patient', {
+            headers: {
+              Authorization: `Bearer ${epicAccessToken}`,
+            },
+          })
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
+      } else {
+        console.error('epicAccessToken not found');
       }
     },
   },
