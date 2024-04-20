@@ -47,7 +47,6 @@ export default {
   methods: {
     async loadMedications() {
       const epicAccessToken = Cookies.get('epic_access_token');
-      console.log('epicAccessToken:', epicAccessToken);
       if (epicAccessToken) {
         axios
           .get(import.meta.env.VITE_FHIR_BASE_URL + '/MedicationRequest', {
@@ -56,7 +55,6 @@ export default {
             },
           })
           .then((response) => {
-            console.log('Medications:', response.data.entry);
             // I need to separate the medications and dosages
             const regex = / (?=\d)/;
             for (let medication of response.data.entry) {
