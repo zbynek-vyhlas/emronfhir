@@ -1,6 +1,6 @@
 import axios from '@/libs/axios';
 import { defineStore } from 'pinia';
-
+import Cookies from 'js-cookie';
 import errorMessageParser from '@/libs/error-message-parser';
 
 export const useMainStore = defineStore({
@@ -17,6 +17,12 @@ export const useMainStore = defineStore({
       isSuperuser: null,
       isStaff: null,
       extraData: null,
+    },
+    epicPatient: {
+      name: null,
+      gender: null,
+      birthDate: null,
+      identifier: null,
     },
     settings: {
       adminPath: null,
@@ -35,7 +41,8 @@ export const useMainStore = defineStore({
       try {
         await this.refreshAccessToken();
         if (this.isAuthenticated) {
-          this.loadData();
+          await this.loadData();
+          await this.loadEpicData();
         }
       } finally {
         this.appInitialized = true;
@@ -53,6 +60,29 @@ export const useMainStore = defineStore({
     async loadData() {
       this.fetchSettings();
       this.fetchUser();
+    },
+    async loadEpicData() {
+      const epicAccessToken = Cookies.get('epic_access_token');
+      if (epicAccessToken) {
+        axios
+          .get(import.meta.env.VITE_FHIR_BASE_URL + '/Patient', {
+            headers: {
+              Authorization: `Bearer ${epicAccessToken}`,
+            },
+          })
+          .then((response) => {
+            const patient = response.data.entry[0].resource;
+            this.epicPatient.name = patient.name[0].text;
+            this.epicPatient.birthDate = patient.birthDate;
+            this.epicPatient.gender = patient.gender;
+            this.epicPatient.identifier = patient.id;
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
+      } else {
+        console.error('epicAccessToken not found');
+      }
     },
     async fetchSettings() {
       axios.get('/api/v1/settings/').then((response) => {

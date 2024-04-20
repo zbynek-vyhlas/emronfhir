@@ -46,6 +46,8 @@
 import Cookies from 'js-cookie';
 import getPkce from 'oauth-pkce';
 import axios from '@/libs/axios';
+import { useMainStore } from '@/stores/main';
+import { mapActions } from 'pinia';
 
 export default {
   data() {
@@ -55,6 +57,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(useMainStore, ['loadEpicData']),
     decideWhatToDo() {
       let access_token = Cookies.get('epic_access_token');
       if (access_token) {
@@ -93,13 +96,14 @@ export default {
             },
           }
         );
-
         if (resp.status === 200) {
           console.log('resp.data', resp.data);
           Cookies.set('epic_access_token', resp.data.access_token, {
-            expires: 1 / 24 / 0.75, // expires in 45 minutes
-            path: '',
+            // expires: 1 / 24 / 60, // expires in 1 minute for testing purposess
+            expires: (1 / 24 / 60 / 60) * resp.data.expires_in,
+            path: '/',
           });
+          await this.loadEpicData();
           this.waitDialog = false;
           this.$router.push({ name: 'home-page' });
         } else {
@@ -126,9 +130,10 @@ export default {
       try {
         const { verifier, challenge } = await this.getPkcePromise(43);
 
-        // remove cookie if previously was one set
-        Cookies.remove('code_verifier');
-        Cookies.set('code_verifier', verifier, { expires: 7, path: '' });
+        Cookies.set('code_verifier', verifier, {
+          expires: 7,
+          path: '/smart-auth',
+        });
 
         // Create a URL object from the authorization endpoint
         const url = new URL(import.meta.env.VITE_AUTHORIZATION_ENDPOINT);

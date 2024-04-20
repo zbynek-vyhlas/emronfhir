@@ -1,6 +1,19 @@
 <template>
   <v-app-bar app fixed color="primary">
     <v-app-bar-title class="app-bar-title">EMRon FHIR</v-app-bar-title>
+    <v-app-bar-title class="app-bar-title"
+      >{{ this.epicPatient.name
+      }}<v-tooltip activator="parent" location="bottom">{{
+        this.epicPatient.identifier
+      }}</v-tooltip></v-app-bar-title
+    >
+
+    <v-app-bar-title class="app-bar-title">{{
+      this.epicPatient.birthDate
+    }}</v-app-bar-title>
+    <v-app-bar-title class="app-bar-title">{{
+      this.epicPatient.gender
+    }}</v-app-bar-title>
 
     <v-spacer></v-spacer>
 
@@ -213,7 +226,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(useMainStore, ['user', 'settings']),
+    ...mapState(useMainStore, ['user', 'settings', 'epicPatient']),
     initials() {
       return getInitials(this.user.firstName, this.user.lastName);
     },

@@ -41,11 +41,9 @@
   </v-row>
 </template>
 <script>
-import Cookies from 'js-cookie';
 import PieChart1 from '../components/charts/PieChart1.vue';
 import PieChart2 from '../components/charts/PieChart2.vue';
 import StackedAreaChart from '../components/charts/StackedAreaChart.vue';
-import axios from '@/libs/axios';
 
 export default {
   components: {
@@ -57,32 +55,6 @@ export default {
     return {
       epicData: [],
     };
-  },
-  methods: {
-    async fetchEpicData() {
-      const epicAccessToken = Cookies.get('epic_access_token');
-      console.log('fetchEpicData called');
-      if (epicAccessToken) {
-        axios
-          .get(import.meta.env.VITE_FHIR_BASE_URL + '/Patient', {
-            headers: {
-              Authorization: `Bearer ${epicAccessToken}`,
-            },
-          })
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((error) => {
-            console.error('Error fetching data:', error);
-          });
-      } else {
-        console.error('epicAccessToken not found');
-      }
-    },
-  },
-  mounted() {
-    console.log('onMounted called');
-    this.fetchEpicData();
   },
 };
 </script>

@@ -8,7 +8,7 @@
       <v-skeleton-loader
         class="mx-auto border"
         max-width="600"
-        type="table"
+        type="table-thead, table-tbody"
       ></v-skeleton-loader>
       <!-- <v-card
         ><v-card-title> Lab Reports </v-card-title>

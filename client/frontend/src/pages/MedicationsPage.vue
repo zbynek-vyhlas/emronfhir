@@ -4,74 +4,86 @@
   </div>
 
   <v-row justify="center">
-    <v-col cols="8"
-      >
+    <v-col cols="8">
       <v-skeleton-loader
+        v-if="!medications.length"
         class="mx-auto border"
-        max-width="600"
-        type="table"
+        max-width="800"
+        type="table-thead, table-tbody"
       ></v-skeleton-loader>
-      <!-- <v-card
+      <v-card v-else
         ><v-card-title>Medications</v-card-title>
         <v-card-text>
           <v-table fixed-header height="300px">
             <thead>
               <tr>
                 <th class="text-left">Name</th>
-                <th class="text-left">value</th>
+                <th class="text-left">Dosage</th>
+                <th class="text-left">Instructions</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in companies" :key="item.name">
-                <td>{{ item.name }}</td>
-                <td>{{ item.value }}</td>
+              <tr v-for="medication in medications" :key="medication.name">
+                <td>{{ medication.name }}</td>
+                <td>{{ medication.dosage }}</td>
+                <td>{{ medication.instructions }}</td>
               </tr>
             </tbody>
           </v-table>
         </v-card-text>
-      </v-card> -->
+      </v-card>
     </v-col>
   </v-row>
 </template>
 <script>
+import axios from '@/libs/axios';
+import Cookies from 'js-cookie';
 export default {
   data() {
     return {
-      companies: [
-        {
-          name: 'datapoint 1',
-          value: 262,
-        },
-        {
-          name: 'datapoint 2',
-          value: 305,
-        },
-        {
-          name: 'datapoint 3',
-          value: 356,
-        },
-        {
-          name: 'datapoint 4',
-          value: 375,
-        },
-        {
-          name: 'datapoint 5',
-          value: 392,
-        },
-        {
-          name: 'datapoint 6',
-          value: 408,
-        },
-        {
-          name: 'datapoint 7',
-          value: 452,
-        },
-        {
-          name: 'datapoint 8',
-          value: 518,
-        },
-      ],
+      medications: [],
     };
+  },
+  methods: {
+    async loadMedications() {
+      const epicAccessToken = Cookies.get('epic_access_token');
+      console.log('epicAccessToken:', epicAccessToken);
+      if (epicAccessToken) {
+        axios
+          .get(import.meta.env.VITE_FHIR_BASE_URL + '/MedicationRequest', {
+            headers: {
+              Authorization: `Bearer ${epicAccessToken}`,
+            },
+          })
+          .then((response) => {
+            console.log('Medications:', response.data.entry);
+            // I need to separate the medications and dosages
+            const regex = / (?=\d)/;
+            for (let medication of response.data.entry) {
+              const medicationRecord =
+                medication.resource.medicationReference?.display;
+              if (medicationRecord) {
+                const parsedMedications = medicationRecord.split(regex);
+                this.medications.push({
+                  name: parsedMedications[0],
+                  dosage: parsedMedications[1],
+                  instructions:
+                    medication.resource.dosageInstruction[0].patientInstruction,
+                });
+              }
+            }
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
+      } else {
+        console.error('epicAccessToken not found');
+      }
+    },
+  },
+
+  mounted() {
+    this.loadMedications();
   },
 };
 </script>
