@@ -42,15 +42,11 @@ function updateChartOptions(theme) {
         radius: '70%',
         center: ['60%', '40%'],
         data: [
-          { value: 335, name: 'Direct' },
-          { value: 310, name: 'Email' },
-          { value: 234, name: 'Ad Networks' },
+          { value: 335, name: 'Pending' },
+          { value: 310, name: 'Previous' },
+          { value: 234, name: 'Past' },
         ],
-        color: [
-          '#80BCBD', // Color for 'Direct'
-          '#AAD9BB', // Color for 'Email'
-          '#F9F7C9', // Color for 'Ad Networks'
-        ],
+        color: ['#80BCBD', '#AAD9BB', '#F9F7C9'],
         emphasis: {
           itemStyle: {
             shadowBlur: 10,

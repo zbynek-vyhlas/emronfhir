@@ -42,15 +42,11 @@ function updateChartOptions(theme) {
         radius: '70%',
         center: ['60%', '40%'],
         data: [
-          { value: 335, name: 'Direct' },
-          { value: 310, name: 'Email' },
-          { value: 234, name: 'Ad Networks' },
+          { value: 335, name: 'Critical' },
+          { value: 310, name: 'Pathological' },
+          { value: 234, name: 'Physiological' },
         ],
-        color: [
-          '#D9EDBF', // Color for 'Direct'
-          '#FFB996', // Color for 'Email'
-          '#FFCF81', // Color for 'Ad Networks'
-        ],
+        color: ['#D9EDBF', '#FFB996', '#FFCF81'],
         emphasis: {
           itemStyle: {
             shadowBlur: 10,

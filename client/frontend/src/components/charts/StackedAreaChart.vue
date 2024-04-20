@@ -56,7 +56,7 @@ function updateChartOptions(theme) {
       },
     },
     legend: {
-      data: ['Email', 'Union Ads', 'Video Ads'],
+      data: ['bad compliance', 'good compliance', 'excellent compliance'],
     },
     toolbox: {
       feature: {
@@ -83,7 +83,7 @@ function updateChartOptions(theme) {
     ],
     series: [
       {
-        name: 'Email',
+        name: 'bad compliance',
         type: 'line',
         stack: 'Total',
         emphasis: {
@@ -101,7 +101,7 @@ function updateChartOptions(theme) {
         },
       },
       {
-        name: 'Union Ads',
+        name: 'good compliance',
         type: 'line',
         stack: 'Total',
         emphasis: {
@@ -119,7 +119,7 @@ function updateChartOptions(theme) {
         },
       },
       {
-        name: 'Video Ads',
+        name: 'excellent compliance',
         type: 'line',
         stack: 'Total',
         emphasis: {
