@@ -12,6 +12,7 @@
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "axios": "^1.4.0",
+    "date-fns": "^3.6.0",
     "echarts": "^5.4.3",
     "js-cookie": "^3.0.5",
     "oauth-pkce": "^0.0.6",

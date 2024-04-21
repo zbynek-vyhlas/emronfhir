@@ -12,7 +12,7 @@
         type="table-thead, table-tbody"
       ></v-skeleton-loader>
       <v-card v-else
-        ><v-card-title>Medications</v-card-title>
+        ><v-card-title>Medication Reference</v-card-title>
         <v-card-text>
           <v-table fixed-header height="300px">
             <thead>
