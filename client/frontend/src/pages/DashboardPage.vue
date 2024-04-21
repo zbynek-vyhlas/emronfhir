@@ -5,37 +5,26 @@
   <v-row>
     <v-col col="6">
       <v-card class="pa-5" title="Vital Signs">
-        <v-skeleton-loader
-          v-if="!epicData.length"
-          class="mx-auto border"
-          max-width="300"
-          type="image, article"
-        ></v-skeleton-loader>
-        <PieChart1 v-else></PieChart1>
+        <PieChart1></PieChart1>
       </v-card>
     </v-col>
     <v-col col="6">
       <v-card class="pa-5" title="Labs">
-        <v-skeleton-loader
-          v-if="!epicData.length"
-          class="mx-auto border"
-          max-width="300"
-          type="image, article"
-        ></v-skeleton-loader>
-        <PieChart2 v-else></PieChart2>
+        <PieChart2></PieChart2>
       </v-card>
     </v-col>
   </v-row>
   <v-row>
     <v-col cols="12">
-      <v-card class="pa-5" title="Medications">
-        <v-skeleton-loader
-          v-if="!epicData.length"
-          class="mx-auto border"
-          max-width="300"
-          type="image, article"
-        ></v-skeleton-loader>
-        <StackedAreaChart v-else></StackedAreaChart>
+      <v-card class="pa-5" title="Pulse">
+        <PulseAreaChart></PulseAreaChart>
+      </v-card>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col cols="12">
+      <v-card class="pa-5" title="Blood Pressure">
+        <BPAreaChart></BPAreaChart>
       </v-card>
     </v-col>
   </v-row>
@@ -43,13 +32,15 @@
 <script>
 import PieChart1 from '../components/charts/PieChart1.vue';
 import PieChart2 from '../components/charts/PieChart2.vue';
-import StackedAreaChart from '../components/charts/StackedAreaChart.vue';
+import PulseAreaChart from '../components/charts/PulseAreaChart.vue';
+import BPAreaChart from '../components/charts/BPAreaChart.vue';
 
 export default {
   components: {
     PieChart1,
     PieChart2,
-    StackedAreaChart,
+    PulseAreaChart,
+    BPAreaChart,
   },
   data() {
     return {

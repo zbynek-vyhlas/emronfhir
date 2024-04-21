@@ -30,11 +30,6 @@ export default new createRouter({
       component: () => import('@/pages/LabsPage.vue'),
     },
     {
-      path: '/vitals/',
-      name: 'vitals-page',
-      component: () => import('@/pages/VitalsPage.vue'),
-    },
-    {
       path: '/user/',
       name: 'user-page',
       component: () => import('@/pages/UserPage.vue'),

@@ -1,5 +1,12 @@
 <template>
-  <v-chart class="chart" :option="option" autoresize />
+  <v-skeleton-loader
+    v-if="false"
+    class="mx-auto border"
+    max-width="800"
+    type="table-tbody"
+  ></v-skeleton-loader>
+  <!-- v-if="!epicData.length" -->
+  <v-chart v-else class="chart" :option="option" autoresize />
 </template>
 
 <script setup>
@@ -30,6 +37,7 @@ use([
 ]);
 
 const option = ref({});
+const epicData = ref([]);
 const appTheme = useTheme();
 const chartTheme = computed(() =>
   appTheme.global.current.value.dark ? 'dark' : 'light'

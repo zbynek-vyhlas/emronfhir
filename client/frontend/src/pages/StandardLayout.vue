@@ -181,12 +181,6 @@ export default {
           routerLink: 'labs-page',
         },
         {
-          title: 'Vital Signs',
-          icon: 'mdi-database',
-          value: 'vitals',
-          routerLink: 'vitals-page',
-        },
-        {
           title: 'User',
           icon: 'mdi-account',
           value: 'user',
