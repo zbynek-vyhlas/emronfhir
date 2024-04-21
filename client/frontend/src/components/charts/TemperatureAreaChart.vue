@@ -68,7 +68,11 @@ const loadObservations = async () => {
         const vitalSignTitle = vitalSign.resource.code?.text;
         const unit = vitalSign.resource.valueQuantity?.unit;
 
-        if (vitalSignTitle && vitalSignTitle === 'Pulse' && unit === '/min') {
+        if (
+          vitalSignTitle &&
+          vitalSignTitle === 'Temperature' &&
+          unit === 'Cel'
+        ) {
           const value = vitalSign.resource.valueQuantity?.value;
           epicData.value.push(value);
         }
@@ -97,7 +101,7 @@ function updateChartOptions(theme) {
       },
     },
     legend: {
-      data: ['/min'],
+      data: ['Cel'],
     },
     toolbox: {
       feature: {
@@ -123,7 +127,7 @@ function updateChartOptions(theme) {
     ],
     series: [
       {
-        name: '/min',
+        name: 'Cel',
         type: 'line',
         stack: 'Total',
         emphasis: {
@@ -131,13 +135,13 @@ function updateChartOptions(theme) {
         },
         data: epicData.value,
         itemStyle: {
-          color: '#FF0000', // Red color in hex
+          color: '#EEC759',
         },
         lineStyle: {
-          color: '#FF0000', // Red color in hex
+          color: '#EEC759',
         },
         areaStyle: {
-          color: 'rgba(255, 0, 0, 0.75)', // Red color with 75% opacity
+          color: 'rgba(238, 199, 89, 0.75)',
         },
       },
     ],

@@ -1,16 +1,15 @@
 <template>
   <v-skeleton-loader
-    v-if="false"
+    v-if="!epicData.length"
     class="mx-auto border"
     max-width="800"
     type="table-tbody"
   ></v-skeleton-loader>
-  <!-- v-if="!epicData.length" -->
   <v-chart v-else class="chart" :option="option" autoresize />
 </template>
 
 <script setup>
-import { ref, watchEffect, provide, computed } from 'vue';
+import { ref, onMounted, watchEffect, provide, computed } from 'vue';
 import { useTheme } from 'vuetify';
 import VChart, { THEME_KEY } from 'vue-echarts';
 import { use } from 'echarts/core';
@@ -25,6 +24,8 @@ import { LineChart } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 
+import axios from 'axios';
+import Cookies from 'js-cookie';
 use([
   TitleComponent,
   ToolboxComponent,
@@ -48,6 +49,38 @@ watchEffect(() => {
   updateChartOptions(chartTheme.value);
 });
 
+const loadObservations = async () => {
+  const epicAccessToken = Cookies.get('epic_access_token');
+  if (epicAccessToken) {
+    try {
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_FHIR_BASE_URL
+        }/Observation?category=vital-signs`,
+        {
+          headers: {
+            Authorization: `Bearer ${epicAccessToken}`,
+          },
+        }
+      );
+
+      response.data.entry.forEach((vitalSign) => {
+        const vitalSignTitle = vitalSign.resource.code?.text;
+        const unit = vitalSign.resource.valueQuantity?.unit;
+
+        if (vitalSignTitle && vitalSignTitle === 'Weight' && unit === 'kg') {
+          const value = vitalSign.resource.valueQuantity?.value;
+          epicData.value.push(value);
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  } else {
+    console.error('epicAccessToken not found');
+  }
+};
+
 function updateChartOptions(theme) {
   option.value = {
     title: {
@@ -64,7 +97,7 @@ function updateChartOptions(theme) {
       },
     },
     legend: {
-      data: ['bad compliance', 'good compliance', 'excellent compliance'],
+      data: ['kg'],
     },
     toolbox: {
       feature: {
@@ -81,7 +114,6 @@ function updateChartOptions(theme) {
       {
         type: 'category',
         boundaryGap: false,
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       },
     ],
     yAxis: [
@@ -91,62 +123,30 @@ function updateChartOptions(theme) {
     ],
     series: [
       {
-        name: 'bad compliance',
+        name: 'kg',
         type: 'line',
         stack: 'Total',
         emphasis: {
           focus: 'series',
         },
-        data: [120, 132, 101, 134, 90, 230, 210],
+        data: epicData.value,
         itemStyle: {
-          color: '#9BB8CD',
+          color: '#ADD8E6', // Light blue color in hex (Light Blue)
         },
         lineStyle: {
-          color: '#9BB8CD',
+          color: '#ADD8E6', // Light blue color in hex (Light Blue)
         },
         areaStyle: {
-          color: 'rgba(155, 184, 205, 0.75)',
-        },
-      },
-      {
-        name: 'good compliance',
-        type: 'line',
-        stack: 'Total',
-        emphasis: {
-          focus: 'series',
-        },
-        data: [220, 182, 191, 234, 290, 330, 310],
-        itemStyle: {
-          color: '#EEC759',
-        },
-        lineStyle: {
-          color: '#EEC759',
-        },
-        areaStyle: {
-          color: 'rgba(238, 199, 89, 0.75)',
-        },
-      },
-      {
-        name: 'excellent compliance',
-        type: 'line',
-        stack: 'Total',
-        emphasis: {
-          focus: 'series',
-        },
-        data: [150, 232, 201, 154, 190, 330, 410],
-        itemStyle: {
-          color: '#B1C381',
-        },
-        lineStyle: {
-          color: '#B1C381',
-        },
-        areaStyle: {
-          color: 'rgba(177, 195, 129, 0.75)',
+          color: 'rgba(173, 216, 230, 0.75)', // Light blue color with 75% opacity
         },
       },
     ],
   };
 }
+
+onMounted(() => {
+  loadObservations();
+});
 </script>
 
 <style scoped>

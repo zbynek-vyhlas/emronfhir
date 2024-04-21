@@ -1,6 +1,6 @@
 <template>
   <v-skeleton-loader
-    v-if="!epicData.length"
+    v-if="!epicData.systolic.length && !epicData.diastolic.length"
     class="mx-auto border"
     max-width="800"
     type="table-tbody"
@@ -38,7 +38,10 @@ use([
 ]);
 
 const option = ref({});
-const epicData = ref([]);
+const epicData = ref({
+  systolic: [],
+  diastolic: [],
+});
 const appTheme = useTheme();
 const chartTheme = computed(() =>
   appTheme.global.current.value.dark ? 'dark' : 'light'
@@ -66,11 +69,12 @@ const loadObservations = async () => {
 
       response.data.entry.forEach((vitalSign) => {
         const vitalSignTitle = vitalSign.resource.code?.text;
-        const unit = vitalSign.resource.valueQuantity?.unit;
-
-        if (vitalSignTitle && vitalSignTitle === 'Pulse' && unit === '/min') {
-          const value = vitalSign.resource.valueQuantity?.value;
-          epicData.value.push(value);
+        if (vitalSignTitle && vitalSignTitle === 'Blood Pressure') {
+          const systolic = vitalSign.resource.component[0].valueQuantity?.value;
+          const diastolic =
+            vitalSign.resource.component[1].valueQuantity?.value;
+          epicData.value.systolic.push(systolic);
+          epicData.value.diastolic.push(diastolic);
         }
       });
     } catch (error) {
@@ -97,7 +101,7 @@ function updateChartOptions(theme) {
       },
     },
     legend: {
-      data: ['/min'],
+      data: ['systolic mm[Hg]', 'diastolic mm[Hg]'],
     },
     toolbox: {
       feature: {
@@ -123,21 +127,40 @@ function updateChartOptions(theme) {
     ],
     series: [
       {
-        name: '/min',
+        name: 'diastolic mm[Hg]',
         type: 'line',
         stack: 'Total',
         emphasis: {
           focus: 'series',
         },
-        data: epicData.value,
+        data: epicData.value.diastolic,
+
         itemStyle: {
-          color: '#FF0000', // Red color in hex
+          color: '#FF6347', // Light red color in hex (Tomato)
         },
         lineStyle: {
-          color: '#FF0000', // Red color in hex
+          color: '#FF6347', // Light red color in hex (Tomato)
         },
         areaStyle: {
-          color: 'rgba(255, 0, 0, 0.75)', // Red color with 75% opacity
+          color: 'rgba(255, 99, 71, 0.75)', // Light red color with 75% opacity
+        },
+      },
+      {
+        name: 'systolic mm[Hg]',
+        type: 'line',
+        stack: 'Total',
+        emphasis: {
+          focus: 'series',
+        },
+        data: epicData.value.systolic,
+        itemStyle: {
+          color: '#8B0000', // Dark red color in hex (Dark Red)
+        },
+        lineStyle: {
+          color: '#8B0000', // Dark red color in hex (Dark Red)
+        },
+        areaStyle: {
+          color: 'rgba(139, 0, 0, 0.75)', // Dark red color with 75% opacity
         },
       },
     ],
