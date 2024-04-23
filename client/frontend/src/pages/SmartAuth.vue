@@ -99,6 +99,7 @@ export default {
             // expires: 1 / 24 / 60, // expires in 1 minute for testing purposess
             expires: (1 / 24 / 60 / 60) * resp.data.expires_in,
             path: '/',
+            SameSite: "Strict"
           });
           await this.loadEpicData();
           this.waitDialog = false;
@@ -130,6 +131,7 @@ export default {
         Cookies.set('code_verifier', verifier, {
           expires: 7,
           path: '/smart-auth',
+          SameSite: "Strict"
         });
 
         // Create a URL object from the authorization endpoint
