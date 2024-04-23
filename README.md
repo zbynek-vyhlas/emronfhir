@@ -1,5 +1,20 @@
 ## start project
 
+
+- create `.env` file in the root of the project and add variables from `.env.example`
+- create `.env.development.local` file in the `/client/frontend` directory and add variables from `.env.development.example`
+
+### create postgres database
+
+- install and start postgres service
+- `psql` into the database
+- create role (use role name and password from `.env` file)
+  - `CREATE ROLE <role_name> WITH LOGIN PASSWORD '<your_password>' CREATEDB SUPERUSER;`
+- create database (use database name and role name from `.env` file)
+  - `CREATE DATABASE <database_name> WITH ENCODING='UTF8' OWNER=<role_name> CONNECTION LIMIT=30;`
+- grant privileges (use database name and role name from `.env` file)
+  - `GRANT ALL PRIVILEGES ON DATABASE <database_name> TO <role_name>;`
+
 ### create certificate
 
 - install [MKCert](https://github.com/FiloSottile/mkcert)
